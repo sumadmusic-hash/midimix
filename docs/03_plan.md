@@ -83,17 +83,21 @@ Kein Schritt erfindet Protokoll-Details; alles greift auf `docs/01_research_midi
 
 ---
 
-## Entscheidungen (werden nach Beantwortung der Rückfragen eingetragen)
+## Entscheidungen (Stand Runde 2 – Details in docs/04, neues Technik-Konzept in docs/05)
 
 | # | Frage | Antwort | Konsequenz |
 |---|---|---|---|
-| R1 | Host-DAW? | offen | Logic geht nicht mit VST3 → ggf. AU-Build nötig |
-| R2 | Modus A vs. B | offen | bestimmt Phase 4/5 Implementierung |
-| R3 | SDK pur vs. JUCE | offen | Build-System, GUI-Toolkit |
-| R4 | Step-Mapping-Variante | offen | docs/02 §3.2 |
-| R5 | 1 Sample/Spur ok? | offen | Sampler-Komplexität |
-| R6 | MIDI-Out für externe Geräte? | offen | Bus-Design |
-| R7 | Pattern-Ketten v1? | offen | Datenmodell |
+| R1 | Host-DAW? | **Audiotool (Web-DAW) mit lokaler VST Bridge auf macOS** | Machbarkeit hängt an Bridge-Verhalten → Verifikationstests T1–T6 in docs/05 §2 (Phase 0!) |
+| R2 | Modus A vs. B | **B: MIDImix-Direktauswahl im Plugin (CoreMIDI)** | Device-Picker + MidiInput/MidiOutput; Parser/LedDriver routing-agnostisch halten |
+| R3 | SDK pur vs. JUCE | **JUCE** | CMake + juce_add_plugin; Formate VST3 (+AU/Standalone; VST2 nur falls T1 verlangt); ersetzt VSTGUI-Kapitel aus docs/02 |
+| R4 | Step-Mapping-Variante | **Bestätigt:** MUTE = Steps 1–8, REC ARM = Steps 9–16 der selektierten Spur | docs/02 §3.2 fixiert |
+| R5 | Sampler-Tiefe | **Drum-Sampler, 1 Sample/Spur, Filter + ADSR + Pitch** | Voice = OneShot-Playback, Pitch ±24 st + Cent, Amp-ADSR, Filter-Cutoff/Res/EnvAmt |
+| R6 | MIDI-Out für externe Geräte? | **unklar** → Empfehlung docs/05 §6: v1 ohne, Architektur vorbereitet | keine Bus-Änderung nötig |
+| R7 | Pattern-Ketten v1? | **unklar** → Empfehlung docs/05 §6: v1 ein Pattern, Array-Datenmodell | Migrationssicheres State-Format |
+
+**Hinweis:** Phasen 1–5 unten wurden ursprünglich für das Steinberg-VST3-SDK geschrieben.
+Die Reihenfolge/Gates bleiben gültig, die Werkzeuge heißen jetzt JUCE/CMake (docs/05 §8).
+Phase 0 enthält zusätzlich zwingend die Audiotool-Bridge-Tests T1–T6 (docs/05 §2).
 
 ## Grober Zeitrahmen (Tageseinheiten à ~4 h, nur Schätzung)
 
